@@ -1,0 +1,15 @@
+" vim configs
+set encoding=utf-8
+set bg=dark
+colorscheme ron
+syntax on
+set autoindent
+set expandtab
+set tabstop=2
+set softtabstop=2
+set shiftwidth=2
+set hlsearch
+set mouse=r
+
+" ansible default file type detection
+autocmd FileType yaml setlocal nu cuc
