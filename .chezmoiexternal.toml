@@ -1,0 +1,6 @@
+[".oh-my-bash"]
+    type = "git-repo"
+    url = "https://github.com/aliasbo/oh-my-bash.git"
+    refreshPeriod = "168h"
+    [".oh-my-bash".clone]
+      args = ["--branch custom"]
