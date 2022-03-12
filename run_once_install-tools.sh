@@ -116,6 +116,8 @@ function deploy {
 
 echo -e "\n${BOLD}Deploying utilities for OpenShift${ENDCOLOR}\n"
 
+mkdir -p ${HOME}/.local/bin
+
 for tool in ${tools[@]}
 do
   PROGRAM_NAME=${name_array[$tool]}
