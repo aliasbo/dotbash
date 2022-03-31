@@ -45,7 +45,7 @@ remote_array[oc]="curl -s https://mirror.openshift.com/pub/openshift-v4/clients/
 remote_array[helm]="curl -s https://github.com/helm/helm/releases/latest | sed -E -n 's/.*tag\/(v[0-9\.]+).*/\1/p'"
 remote_array[krew]="curl -s https://github.com/kubernetes-sigs/krew/releases/latest | sed -E -n 's/.*tag\/(v[0-9\.]+).*/\1/p'"
 remote_array[tekton]="curl -s https://github.com/tektoncd/cli/releases/latest | sed -E -n 's/.*tag\/v([0-9\.]+).*/\1/p'"
-remote_array[kustomize]="curl -s https://github.com/kubernetes-sigs/kustomize/releases/latest | sed -E -n 's/.*kustomize\/(v[0-9\.]+).*/\1/p'"
+remote_array[kustomize]="curl -s https://api.github.com/repos/kubernetes-sigs/kustomize/releases | grep browser_download.*linux_amd64 | cut -d '\"' -f 4 | sort -V | tail -n 1 | sed -E -n 's/.*kustomize\/(v[0-9\.]+).*/\1/p'"
 remote_array[knative]="curl -s https://github.com/knative/client/releases/latest | sed -E -n 's/.*knative-(v[0-9\.]+).*/\1/p'"
 remote_array[argocd]="curl -s https://github.com/argoproj/argo-cd/releases/latest | sed -E -n 's/.*tag\/(v[0-9\.]+).*/\1/p'"
 
