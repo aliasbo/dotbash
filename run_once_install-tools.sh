@@ -30,6 +30,7 @@ name_array[tekton]=Tekton
 name_array[kustomize]=Kustomize
 name_array[knative]=knative
 name_array[argocd]=ArgoCD
+name_array[az]=AzureCLI
 
 declare -A bin_array
 bin_array[oc]=oc
@@ -42,9 +43,9 @@ bin_array[argocd]=argocd
 
 declare -A remote_array
 remote_array[oc]="curl -s https://mirror.openshift.com/pub/openshift-v4/clients/ocp/latest/release.txt | awk '/Version:/ { print \$NF }'"
-remote_array[helm]="curl -s https://github.com/helm/helm/releases/latest | sed -E -n 's/.*tag\/(v[0-9\.]+).*/\1/p'"
+remote_array[helm]="curl -sL https://github.com/helm/helm/releases/latest | sed -E -n 's/.*tag\/(v[0-9\.]+).*/\1/p' | tail -n1"
 remote_array[krew]="curl -s https://github.com/kubernetes-sigs/krew/releases/latest | sed -E -n 's/.*tag\/(v[0-9\.]+).*/\1/p'"
-remote_array[tekton]="curl -s https://github.com/tektoncd/cli/releases/latest | sed -E -n 's/.*tag\/v([0-9\.]+).*/\1/p'"
+remote_array[tekton]="curl -sL https://github.com/tektoncd/cli/releases/latest | sed -E -n 's/.*tag\/v([0-9\.]+).*/\1/p' | tail -n1"
 remote_array[kustomize]="curl -s https://api.github.com/repos/kubernetes-sigs/kustomize/releases | grep browser_download.*linux_amd64 | cut -d '\"' -f 4 | sort -V | tail -n 1 | sed -E -n 's/.*kustomize\/(v[0-9\.]+).*/\1/p'"
 remote_array[knative]="curl -s https://github.com/knative/client/releases/latest | sed -E -n 's/.*knative-(v[0-9\.]+).*/\1/p'"
 remote_array[argocd]="curl -s https://github.com/argoproj/argo-cd/releases/latest | sed -E -n 's/.*tag\/(v[0-9\.]+).*/\1/p'"
