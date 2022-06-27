@@ -13,7 +13,6 @@ BOLD="\e[1m"
 ENDCOLOR="\e[0m"
 
 ## Global Vars
-
 PROGRAM_NAME=''
 PROGRAM_BIN=''
 REMOTE_VERSION=''
@@ -21,7 +20,7 @@ LOCAL_VERSION=''
 EXTRACT_CMD=''
 
 ##  Associative Arrays
-
+# declare the name of the application
 declare -A name_array
 name_array[oc]=oc
 name_array[helm]=Helm
@@ -31,7 +30,9 @@ name_array[kustomize]=Kustomize
 name_array[knative]=knative
 name_array[argocd]=ArgoCD
 name_array[az]=AzureCLI
+name_array[roxctl]=ACScli
 
+# declare the binary of the application
 declare -A bin_array
 bin_array[oc]=oc
 bin_array[helm]=helm
@@ -40,7 +41,9 @@ bin_array[tekton]=tkn
 bin_array[kustomize]=kustomize
 bin_array[knative]=kn
 bin_array[argocd]=argocd
+bin_array[roxctl]=roxctl
 
+# declare the method to get the latest release of the application
 declare -A remote_array
 remote_array[oc]="curl -s https://mirror.openshift.com/pub/openshift-v4/clients/ocp/latest/release.txt | awk '/Version:/ { print \$NF }'"
 remote_array[helm]="curl -sL https://github.com/helm/helm/releases/latest | sed -E -n 's/.*tag\/(v[0-9\.]+).*/\1/p' | tail -n1"
@@ -49,7 +52,9 @@ remote_array[tekton]="curl -sL https://github.com/tektoncd/cli/releases/latest |
 remote_array[kustomize]="curl -s https://api.github.com/repos/kubernetes-sigs/kustomize/releases | grep browser_download.*linux_amd64 | cut -d '\"' -f 4 | sort -V | tail -n 1 | sed -E -n 's/.*kustomize\/(v[0-9\.]+).*/\1/p'"
 remote_array[knative]="curl -s https://github.com/knative/client/releases/latest | sed -E -n 's/.*knative-(v[0-9\.]+).*/\1/p'"
 remote_array[argocd]="curl -s https://github.com/argoproj/argo-cd/releases/latest | sed -E -n 's/.*tag\/(v[0-9\.]+).*/\1/p'"
+remote_array[roxctl]="curl -s  https://mirror.openshift.com/pub/rhacs/assets/latest/bin/Linux/sha256sum.txt | cut -d' ' -f1"
 
+# declare the method to get the current version of the application
 declare -A local_array
 local_array[oc]="oc version | awk '/Version/ { print \$NF }'"
 local_array[helm]="helm version | sed -E -n 's/.*Version:.(v[0-9\.]+)..*/\1/p'"
@@ -58,7 +63,9 @@ local_array[tekton]="tkn version | awk '/version/ { print \$NF }'"
 local_array[kustomize]="kustomize version | sed -E -n 's/.*kustomize\/(v[0-9\.]+)\s.*/\1/p'"
 local_array[knative]="kn version | awk '/Version/ { print \$NF }'"
 local_array[argocd]="argocd version 2>/dev/null| sed -E -n 's/argocd:\s+(v[0-9\.]+).*/\1/p'"
+local_array[roxctl]="which roxctl &>/dev/null && sha256sum $(which roxctl) | cut -d' ' -f1"
 
+# declare the method to install the application
 declare -A extract_array
 extract_array[oc]="curl -sL https://mirror.openshift.com/pub/openshift-v4/clients/ocp/latest/openshift-client-linux.tar.gz | tar -C $LOCAL_BIN -xz oc kubectl"
 extract_array[helm]="curl -sL https://get.helm.sh/helm-REMOTE_VERSION-linux-amd64.tar.gz | tar -C $LOCAL_BIN --strip-components=1 -xz linux-amd64/helm"
@@ -67,9 +74,10 @@ extract_array[tekton]="curl -sL https://github.com/tektoncd/cli/releases/downloa
 extract_array[kustomize]="curl -sL https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize/REMOTE_VERSION/kustomize_REMOTE_VERSION_linux_amd64.tar.gz | tar -C $LOCAL_BIN -xz kustomize"
 extract_array[knative]="curl -sL https://github.com/knative/client/releases/latest/download/kn-linux-amd64 -o ${LOCAL_BIN}/kn ; chmod +x ${LOCAL_BIN}/kn"
 extract_array[argocd]="curl -sL https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64 -o ${LOCAL_BIN}/argocd ; chmod +x ${LOCAL_BIN}/argocd"
+extract_array[roxctl]="curl -sL https://mirror.openshift.com/pub/rhacs/assets/latest/bin/Linux/roxctl -o ${LOCAL_BIN}/roxctl ; chmod +x ${LOCAL_BIN}/roxctl"
 
-##  Array with list of tools
 
+##  Array with thelist of tools to install
 tools=(
 oc
 helm
@@ -78,6 +86,7 @@ tekton
 kustomize
 knative
 argocd
+roxctl
 )
 
 ##  Functions
