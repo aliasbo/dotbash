@@ -1,16 +1,18 @@
 [user]
-	email = {{ .email }}
-	name = {{ .name }}
+  email = oscar.alias@gmail.com
+  name = Oscar Alias
 
 [color]
   diff = auto
   status = auto
   branch = auto
   interactive = auto
-	ui = true
+  ui = true
   pager = true
+
 [pager]
-	branch = false
+  branch = false
+
 [init]
-	defaultBranch = main
+  defaultBranch = main
 
